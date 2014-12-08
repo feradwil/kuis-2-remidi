@@ -27,12 +27,6 @@
     <div class="container">
       <div class="jumbotron">
         <h3>Tugas KUIS 2 Remidi</h3>
-        <ul>
-          <li>Buatlah tampilan seperti berikut menggunakan service : http://wsf.cdyne.com/WeatherWS/Weather.asmx?WSDL</li>
-          <li>Method : GetWeatherInformation</li>
-          <li>Buatlah di pagodabox masing-masing dan hasil merupakan url di pagodabox dan dikirim ke email burhanudin.hakim@ugm.ac.id paling lambat 9 Desember 2014 pukul 23:59 berupa : repository github dan url pagodabox</li>
-          <li>Note : cukup buat client.php saja tidak perlu buat service nya.</li>
-        </ul>
       </div>
       <table class="table table-bordered">
           <tr>
@@ -40,31 +34,21 @@
             <td>Weather</td>
             <td>Picture</td>
           </tr>
-          <tr>
-            <td>1</td>
-            <td>Thunder Storms</td>
-            <td><img src="http://ws.cdyne.com/WeatherWS/Images/thunderstorms.gif"/></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Partly Cloudy</td>
-            <td><img src="http://ws.cdyne.com/WeatherWS/Images/partlycloudy.gif"/></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Mostly Cloudy</td>
-            <td><img src="http://ws.cdyne.com/WeatherWS/Images/mostlycloudy.gif"/></td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Sunny</td>
-            <td><img src="http://ws.cdyne.com/WeatherWS/Images/sunny.gif"/></td>
-          </tr>
-          <tr>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-          </tr>
+		  
+		<?php
+		require_once('nusoap/lib/nusoap.php');
+		$url = 'http://wsf.cdyne.com/WeatherWS/Weather.asmx?WSDL';
+		$client = new nusoap_client($url, 'WSDL');
+		$result = $client->call('GetWeatherInformation');
+		//print_r($result['GetWeatherInformationResult']['WeatherDescription']);
+		foreach($result['GetWeatherInformationResult']['WeatherDescription'] as $weather){
+		echo "<tr>";
+		echo "<td>".$weather['WeatherID']."</td>"; 
+		echo "<td>".$weather['Description']."</td>";
+		echo "<td> <img src='".$weather['PictureURL']."'></td>";
+		echo "</tr>";
+		}
+		?>
         </table>
 
 </body>
